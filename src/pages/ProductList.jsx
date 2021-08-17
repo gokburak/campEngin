@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Icon, Menu, Table } from "semantic-ui-react";
+import { Button, Icon, Menu, Table } from "semantic-ui-react";
 import ProductServices from "../services/productService";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { addToCart } from "../store/actions/cartActions";
+import { toast } from "react-toastify";
 
 export default function ProductList() {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
@@ -15,6 +17,10 @@ export default function ProductList() {
     productService.getProducts().then((result) => setProduct(result.data));
   }, []);
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success(`{product.capital} Sepete Eklendi `);
+  };
   return (
     <div>
       <Table celled>
@@ -25,23 +31,27 @@ export default function ProductList() {
             <Table.HeaderCell>Nüfus</Table.HeaderCell>
             <Table.HeaderCell>Yerli Adı</Table.HeaderCell>
             <Table.HeaderCell>Bayrak</Table.HeaderCell>
-
+            <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {product.map((product) => (
             <Table.Row key={product.name}>
-              <Table.Cell> <Link to={`/products/${product.capital} `} >{product.name}</Link> </Table.Cell>
+              <Table.Cell>
+              
+                <Link to={`/products/${product.capital} `}>
+                  {product.name}
+                </Link>
+              </Table.Cell>
               <Table.Cell>{product.capital}</Table.Cell>
               <Table.Cell>{product.population}</Table.Cell>
               <Table.Cell>{product.nativeName}</Table.Cell>
               <Table.Cell>
-                <img
-                  src={product.flag}
-                  alt="ffg"
-                  style={{ width: "40%" }}
-                />
+                <img src={product.flag} alt="ffg" style={{ width: "40%" }} />
+              </Table.Cell>
+              <Table.Cell>
+                <Button onClick={() => handleAddToCart(product)}>EKLE</Button>
               </Table.Cell>
             </Table.Row>
           ))}
