@@ -20,6 +20,7 @@ export default function cartReducer(state = initialState, { type, payload }) {
           cartItems: [...state.cartItems, { quantity: 1, product: payload }],
         };
       }
+
     case REMOVE_TO_CART:
       return {
         ...state,

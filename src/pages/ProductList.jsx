@@ -19,7 +19,7 @@ export default function ProductList() {
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
-    toast.success(`{product.capital} Sepete Eklendi `);
+    toast.success(`${product.capital} Sepete Eklendi `);
   };
   return (
     <div>
@@ -36,13 +36,10 @@ export default function ProductList() {
         </Table.Header>
 
         <Table.Body>
-          {product.map((product) => (
+          {product.map((product) => ( 
             <Table.Row key={product.name}>
               <Table.Cell>
-              
-                <Link to={`/products/${product.capital} `}>
-                  {product.name}
-                </Link>
+                <Link to={`/products/${product.capital} `}>{product.name}</Link>
               </Table.Cell>
               <Table.Cell>{product.capital}</Table.Cell>
               <Table.Cell>{product.population}</Table.Cell>
